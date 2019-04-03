@@ -6,29 +6,30 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-flex xs12 sm6>
-        <v-text-field label="Search GitHub Repos" append-icon="search" v-model="searchTerm"></v-text-field>
+        <v-text-field
+          label="Search GitHub Repos"
+          append-icon="search"
+          v-model="searchTerm"
+          @keyup.enter="getRepos()"
+        ></v-text-field>
       </v-flex>
     </v-toolbar>
 
     <v-content>
-      <ul v-if="repos && repos.length">
-        <li v-for="repo of repos" :key="repo.id">
-          <p>
-            <strong>{{repo.name}}</strong>
-          </p>
-          <p>{{repo.decscription}}</p>
-        </li>
-      </ul>
+      <div v-if="loading = true" class="text-xs-center">
+        <v-spacer></v-spacer>
+        <v-progress-circular indeterminate></v-progress-circular>
+        <span>Loading...</span>
+      </div>
 
-      <ul v-if="errors && errors.length">
-        <li v-for="error of errors">{{error.message}}</li>
-      </ul>
+      <RepoCard :repo="repo" v-for="repo in repos" :key="repo.id"></RepoCard>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import axios from "axios";
+import RepoCard from "./components/RepoCard.vue";
 
 export default {
   name: "App",
@@ -36,23 +37,33 @@ export default {
   data() {
     return {
       repos: [],
-      errors: [],
-      searchTerm: ""
+      searchTerm: "",
+      loading: false,
+      error: false
     };
   },
-
-  // Fetches posts when the component is created.
-  created() {
-    axios
-      .get(`https://api.github.com/search/repositories?q=react`)
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.repos = response.data.items;
-        console.log(response.data.items);
-      })
-      .catch(e => {
-        this.errors.push(e);
-      });
+  methods: {
+    getRepos() {
+      axios
+        .get(`https://api.github.com/search/repositories?q=${this.searchTerm}`)
+        .then(response => {
+          // JSON responses are automatically parsed.
+          this.repos = response.data.items;
+        })
+        .catch(e => {
+          console.error(e);
+          this.error = true;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    }
+  },
+  mounted() {
+    this.getRepos();
+  },
+  components: {
+    RepoCard
   }
 };
 </script>

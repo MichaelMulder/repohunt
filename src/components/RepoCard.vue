@@ -2,17 +2,19 @@
   <v-card>
     <v-container fluid grid-list-md>
       <v-layout row wrap>
-        <v-flex v-for="repo in repos" :key="repo.title" v-bind="{ [`xs${repo.flex}`]: true }">
+        <v-flex>
           <v-card>
-            <v-img :src="repo.src" height="200px">
-              <v-container fill-height fluid pa-2>
-                <v-layout fill-height>
-                  <v-flex xs12 align-end flexbox>
-                    <span class="headline white--text" v-text="repo.title"></span>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-img>
+            <v-container fill-height fluid pa-2>
+              <v-layout fill-height>
+                <v-flex xs12 align-end flexbox>
+                  <span class="headline black--text" v-text="repo.full_name"></span>
+                </v-flex>
+              </v-layout>
+              <v-chip color="lightgrey">
+                {{repo.stargazers_count}}
+                <v-icon right>star</v-icon>
+              </v-chip>
+            </v-container>
 
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -32,3 +34,15 @@
     </v-container>
   </v-card>
 </template>
+
+<script>
+export default {
+  name: "RepoCard",
+  props: {
+    repo: {
+      type: Object,
+      required: true
+    }
+  }
+};
+</script>
