@@ -7,7 +7,7 @@
             <v-container fill-height fluid pa-2>
               <v-layout fill-height>
                 <v-flex xs12 align-end flexbox>
-                  <span class="headline black--text" v-text="repo.full_name"></span>
+                  <span class="headline" v-text="repo.full_name"></span>
                 </v-flex>
               </v-layout>
               <v-chip color="lightgrey">

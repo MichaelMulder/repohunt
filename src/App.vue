@@ -5,7 +5,7 @@
       <br>
       <br>
       <br>
-      <router-view></router-view>
+      <router-view :favorites="favorites"></router-view>
     </v-content>
   </v-app>
 </template>
@@ -17,7 +17,7 @@ export default {
   name: "App",
   data() {
     return {
-      favorites: []
+      favorites: ["hello"]
     };
   },
   components: {

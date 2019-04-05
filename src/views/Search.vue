@@ -1,22 +1,38 @@
 <template>
-  <div>
-    <v-flex>
-      <v-text-field
-        label="Search GitHub Repos"
-        append-icon="search"
-        v-model="search"
-        @keyup.enter="getRepos()"
-      ></v-text-field>
-    </v-flex>
-    <div v-if="!loaded" class="text-xs-center">
-      <v-spacer></v-spacer>
-      <v-progress-circular indeterminate></v-progress-circular>
-      <span>Loading...</span>
-    </div>
+  <v-container fluid>
+    <v-layout align-center justify-center>
+      <v-flex sx10 md6>
+        <v-card class="rounded-card">
+          <v-card-text>
+            <v-text-field
+              label="Search GitHub Repos"
+              append-icon="search"
+              v-model="search"
+              @keyup.enter="getRepos()"
+            ></v-text-field>
+            <div v-if="!loaded" class="text-xs-center">
+              <v-spacer></v-spacer>
+              <v-progress-circular indeterminate></v-progress-circular>
+              <span>Loading...</span>
+            </div>
+          </v-card-text>
 
-    <RepoCard v-show="search != null" :repo="repo" v-for="repo in repositories" :key="repo.id"></RepoCard>
-  </div>
+          <RepoCard
+            v-show="search != null"
+            :repo="repo"
+            v-for="repo in repositories"
+            :key="repo.id"
+          ></RepoCard>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
+<style>
+.rouned-card {
+  border-radius: 50px;
+}
+</style>
 <script>
 import axios from "axios";
 import RepoCard from "../components/RepoCard.vue";

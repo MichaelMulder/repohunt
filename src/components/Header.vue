@@ -1,10 +1,19 @@
 <template>
   <nav>
-    <v-navigation-drawer v-model="drawer" fixed>
+    <v-navigation-drawer v-model="drawer" dark fixed>
+      <v-toolbar flat>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-title class="title">Repo Hunt</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+
+      <v-divider></v-divider>
       <v-list dense>
         <v-list-tile to="/">
           <v-list-tile-action>
-            <v-icon>home</v-icon>
+            <v-icon>search</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Home</v-list-tile-title>
