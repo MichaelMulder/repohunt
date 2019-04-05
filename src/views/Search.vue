@@ -4,7 +4,7 @@
       <v-text-field
         label="Search GitHub Repos"
         append-icon="search"
-        :value="search"
+        v-model="search"
         @keyup.enter="getRepos()"
       ></v-text-field>
     </v-flex>
@@ -14,33 +14,42 @@
       <span>Loading...</span>
     </div>
 
-    <RepoCard v-show="search != null" :repo="repo" v-for="repo in repos" :key="repo.id"></RepoCard>
+    <RepoCard v-show="search != null" :repo="repo" v-for="repo in repositories" :key="repo.id"></RepoCard>
   </div>
 </template>
 <script>
+import axios from "axios";
 import RepoCard from "../components/RepoCard.vue";
 
 export default {
-  props: {
-    search: {
-      type: String
-    },
-    loaded: {
-      type: Boolean
-    },
-    repos: {
-      type: Array
-    }
+  data() {
+    return {
+      search: null,
+      loaded: false,
+      repositories: []
+    };
   },
-
-  components: {
-    RepoCard
-  },
-
   methods: {
     getRepos() {
-      this.$emit("getRepos");
+      axios
+        .get(`https://api.github.com/search/repositories?q=${this.search}`)
+        .then(response => {
+          // JSON responses are automatically parsed.
+          this.repositories = response.data.items;
+        })
+        .catch(e => {
+          console.error(e);
+        })
+        .finally(() => {
+          this.loaded = true;
+        });
     }
+  },
+  mounted() {
+    this.getRepos();
+  },
+  components: {
+    RepoCard
   }
 };
 </script>
