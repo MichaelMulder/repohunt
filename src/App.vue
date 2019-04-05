@@ -1,69 +1,60 @@
 <template>
   <v-app>
-    <v-toolbar app dark>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Repo Hunt</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-flex xs12 sm6>
-        <v-text-field
-          label="Search GitHub Repos"
-          append-icon="search"
-          v-model="searchTerm"
-          @keyup.enter="getRepos()"
-        ></v-text-field>
-      </v-flex>
-    </v-toolbar>
-
+    <Header></Header>
     <v-content>
-      <div v-if="loading = true" class="text-xs-center">
-        <v-spacer></v-spacer>
-        <v-progress-circular indeterminate></v-progress-circular>
-        <span>Loading...</span>
-      </div>
-
-      <RepoCard :repo="repo" v-for="repo in repos" :key="repo.id"></RepoCard>
+      <br>
+      <br>
+      <br>
+      <router-view :repos="filteredRepos" :search="search" :loaded="loaded" :getRepos="getRepos"></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import axios from "axios";
-import RepoCard from "./components/RepoCard.vue";
+import Header from "./components/Header.vue";
 
 export default {
   name: "App",
-
   data() {
     return {
-      repos: [],
-      searchTerm: "",
-      loading: false,
-      error: false
+      repositories: [],
+      search: null,
+      loaded: false,
+      favorites: []
     };
   },
   methods: {
     getRepos() {
       axios
-        .get(`https://api.github.com/search/repositories?q=${this.searchTerm}`)
+        .get(`https://api.github.com/search/repositories?q=${this.search}`)
         .then(response => {
           // JSON responses are automatically parsed.
-          this.repos = response.data.items;
+          this.repositories = response.data.items;
+          console.log(response.data.items[1].name);
         })
         .catch(e => {
           console.error(e);
-          this.error = true;
         })
         .finally(() => {
-          this.loading = false;
+          this.loaded = true;
         });
+    }
+  },
+
+  computed: {
+    filteredRepos() {
+      this.repositories.filter(repos => {
+        const regex = new RegExp(this.search, "gi");
+        return repos.full_name.match(regex) || repos.name.match(regex);
+      });
     }
   },
   mounted() {
     this.getRepos();
   },
   components: {
-    RepoCard
+    Header
   }
 };
 </script>

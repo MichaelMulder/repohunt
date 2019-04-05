@@ -14,18 +14,22 @@
                 {{repo.stargazers_count}}
                 <v-icon right>star</v-icon>
               </v-chip>
+              <v-chip color="amber">
+                {{repo.language}}
+                <v-icon right>code</v-icon>
+              </v-chip>
             </v-container>
-
+            <div class="grey--text px-2">{{repo.description}}</div>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn icon>
+              <v-btn :class="fav ? 'red--text' : ''" @click="fav = !fav" icon>
                 <v-icon>favorite</v-icon>
               </v-btn>
               <v-btn icon>
-                <v-icon>note_add</v-icon>
+                <v-icon color="green">note_add</v-icon>
               </v-btn>
               <v-btn icon>
-                <v-icon>share</v-icon>
+                <v-icon color="blue">link</v-icon>
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -43,6 +47,11 @@ export default {
       type: Object,
       required: true
     }
+  },
+  data() {
+    return {
+      fav: false
+    };
   }
 };
 </script>
