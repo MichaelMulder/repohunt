@@ -22,6 +22,7 @@
             :repo="repo"
             v-for="repo in repositories"
             :key="repo.id"
+            :favorites="favorites"
           ></RepoCard>
         </v-card>
       </v-flex>
@@ -38,6 +39,11 @@ import axios from "axios";
 import RepoCard from "../components/RepoCard.vue";
 
 export default {
+  props: {
+    favorites: {
+      type: Array
+    }
+  },
   data() {
     return {
       search: null,

@@ -11,14 +11,24 @@
 </template>
 
 <script>
+import { db } from "./base";
 import Header from "./components/Header.vue";
 
 export default {
   name: "App",
   data() {
     return {
-      favorites: ["hello"]
+      favorites: []
     };
+  },
+  created() {
+    db.collection("favorites")
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          this.favorites.push(doc.data());
+        });
+      });
   },
   components: {
     Header

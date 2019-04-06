@@ -1,10 +1,25 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-    <h1>Hello</h1>
+  <div>
+    <RepoCard
+      :repo="favorite"
+      v-for="favorite in favorites"
+      :key="favorite.id"
+      :favorites="favorites"
+    ></RepoCard>
   </div>
 </template>
 
 <script>
-export default {};
+import { db } from "../base";
+import RepoCard from "../components/RepoCard.vue";
+export default {
+  props: {
+    favorites: {
+      type: Array
+    }
+  },
+  components: {
+    RepoCard
+  }
+};
 </script>
