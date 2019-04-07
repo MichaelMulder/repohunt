@@ -24,7 +24,15 @@
             <v-icon>favorites</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Favorites</v-list-tile-title>
+            <v-list-tile-title>Your Favorites</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile to="/notes">
+          <v-list-tile-action>
+            <v-icon>note</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Your Notes</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>

@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card flat>
     <v-container fluid grid-list-md>
       <v-layout row wrap>
         <v-flex>
@@ -7,19 +7,21 @@
             <v-container fill-height fluid pa-2>
               <v-layout fill-height>
                 <v-flex xs12 align-end flexbox>
-                  <span class="headline" v-text="repo.full_name"></span>
+                  <span class="title" v-text="repo.full_name"></span>
                 </v-flex>
               </v-layout>
-              <v-chip color="lightgrey" small>
-                {{repo.stargazers_count}}
-                <v-icon right>star</v-icon>
-              </v-chip>
-              <v-chip color="amber" small>
-                {{repo.language}}
-                <v-icon right>code</v-icon>
-              </v-chip>
+              <v-list align-end>
+                <v-chip color="lightgrey" small class="caption">
+                  {{repo.stargazers_count}}
+                  <v-icon right>star</v-icon>
+                </v-chip>
+                <v-chip color="amber" small>
+                  {{repo.language}}
+                  <v-icon right>code</v-icon>
+                </v-chip>
+              </v-list>
             </v-container>
-            <div class="grey--text px-2">{{repo.description}}</div>
+            <div class="grey--text px-2 py-0">{{repo.description}}</div>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn v-if="faved" class="red--text" @click="removeFavorite" icon>
@@ -28,9 +30,7 @@
               <v-btn v-else class="grey--text" @click="addFavorite" icon>
                 <v-icon>favorite_outline</v-icon>
               </v-btn>
-              <v-btn icon>
-                <v-icon color="green">note_add</v-icon>
-              </v-btn>
+              <NoteDialog :notes="notes" :repo="repo"></NoteDialog>
               <v-btn icon>
                 <v-icon color="blue">link</v-icon>
               </v-btn>
@@ -44,6 +44,8 @@
 
 <script>
 import { db } from "../base.js";
+import NoteDialog from "./NoteDialog.vue";
+
 export default {
   name: "RepoCard",
   props: {
@@ -52,6 +54,9 @@ export default {
       required: true
     },
     favorites: {
+      type: Array
+    },
+    notes: {
       type: Array
     }
   },
@@ -78,6 +83,9 @@ export default {
     if (this.favorites.includes(this.repo)) {
       this.faved = true;
     }
+  },
+  components: {
+    NoteDialog
   }
 };
 </script>

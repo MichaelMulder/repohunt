@@ -1,11 +1,11 @@
 <template>
-  <v-app>
+  <v-app dark>
     <Header></Header>
     <v-content>
       <br>
       <br>
       <br>
-      <router-view :favorites="favorites"></router-view>
+      <router-view :favorites="favorites" :notes="notes"></router-view>
     </v-content>
   </v-app>
 </template>
@@ -18,7 +18,8 @@ export default {
   name: "App",
   data() {
     return {
-      favorites: []
+      favorites: [],
+      notes: []
     };
   },
   created() {
@@ -29,6 +30,18 @@ export default {
           this.favorites.push(doc.data());
         });
       });
+    db.collection("notes").onSnapshot(res => {
+      const changes = res.docChanges();
+
+      changes.forEach(change => {
+        if (change.type == "added") {
+          this.notes.push({
+            ...change.doc.data(),
+            id: change.doc.id
+          });
+        }
+      });
+    });
   },
   components: {
     Header

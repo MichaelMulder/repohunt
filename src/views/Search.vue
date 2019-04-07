@@ -1,13 +1,15 @@
 <template>
   <v-container fluid>
-    <v-layout align-center justify-center>
-      <v-flex sx10 md6>
-        <v-card class="rounded-card">
-          <v-card-text>
+    <v-layout align-center justify-center wrap>
+      <v-flex sx10 sm6>
+        <v-card>
+          <v-card-text color="white">
             <v-text-field
               label="Search GitHub Repos"
               append-icon="search"
               v-model="search"
+              outline
+              color="white"
               @keyup.enter="getRepos()"
             ></v-text-field>
             <div v-if="!loaded" class="text-xs-center">
@@ -23,17 +25,13 @@
             v-for="repo in repositories"
             :key="repo.id"
             :favorites="favorites"
+            :notes="notes"
           ></RepoCard>
         </v-card>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
-<style>
-.rouned-card {
-  border-radius: 50px;
-}
-</style>
 <script>
 import axios from "axios";
 import RepoCard from "../components/RepoCard.vue";
@@ -41,6 +39,9 @@ import RepoCard from "../components/RepoCard.vue";
 export default {
   props: {
     favorites: {
+      type: Array
+    },
+    notes: {
       type: Array
     }
   },
