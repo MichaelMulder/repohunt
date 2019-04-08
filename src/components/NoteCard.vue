@@ -1,21 +1,31 @@
 <template>
-  <v-container fluid>
-    <v-layout align-center justify-center>
-      <v-flex sx10 md6>
-        <v-card>
-          <v-toolbar>
-            <span>{{note.title}}</span>
-          </v-toolbar>
-          <v-card-text class="subheading">{{note.description}}</v-card-text>
-          <v-card-text>{{repo.full_name}}</v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <v-card flat>
+    <v-container fluid grid-list-md>
+      <v-layout row wrap>
+        <v-flex>
+          <v-card>
+            <v-toolbar flat>
+              <span class="headline">{{note.title}}</span>
+            </v-toolbar>
+            <v-card-text class="subheading">{{note.description}}</v-card-text>
+            <v-card-actions>
+              <v-card-text class="caption">{{repo.full_name}}</v-card-text>
+              <EditNote :note="note" :repo="note.repo"></EditNote>
+              <v-btn icon @click="deleteNote(note.id)">
+                <v-icon color="red">delete</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
-import RepoCard from "../components/RepoCard.vue";
+import { db } from "../base";
+import EditNote from "./EditNote";
+
 export default {
   props: {
     notes: {
@@ -32,8 +42,15 @@ export default {
     }
   },
   name: "NoteCard",
-  component: {
-    RepoCard
+  methods: {
+    deleteNote(id) {
+      db.collection("notes")
+        .doc(id)
+        .delete();
+    }
+  },
+  components: {
+    EditNote
   }
 };
 </script>

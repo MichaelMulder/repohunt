@@ -3,6 +3,9 @@
     <v-layout align-center justify-center>
       <v-flex sx10 md6>
         <v-card>
+          <v-toolbar>
+            <span class="headline">Your Favorites</span>
+          </v-toolbar>
           <RepoCard
             :repo="favorite"
             v-for="favorite in favorites"

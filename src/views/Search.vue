@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout align-center justify-center wrap>
-      <v-flex sx10 sm6>
+      <v-flex sx10 sm10 md8 lg6>
         <v-card>
           <v-card-text color="white">
             <v-text-field
