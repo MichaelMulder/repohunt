@@ -31,10 +31,11 @@
                 <v-icon>favorite_outline</v-icon>
               </v-btn>
               <NoteDialog :notes="notes" :repo="repo"></NoteDialog>
-              <v-btn icon>
+              <v-btn icon v-clipboard:copy="repo.html_url" @click="linkCopied">
                 <v-icon color="blue">link</v-icon>
               </v-btn>
             </v-card-actions>
+            <v-snackbar v-model="copied">Link to {{repo.full_name}} Copied!</v-snackbar>
           </v-card>
         </v-flex>
       </v-layout>
@@ -62,12 +63,14 @@ export default {
   },
   data() {
     return {
-      faved: false
+      faved: false,
+      copied: false
     };
   },
   methods: {
     addFavorite() {
       this.faved = true;
+      console.log(this.repo.html_url);
       db.collection("favorites")
         .doc(this.repo.id.toString())
         .set(this.repo);
@@ -77,6 +80,9 @@ export default {
       db.collection("favorites")
         .doc(this.repo.id.toString())
         .delete();
+    },
+    linkCopied() {
+      this.copied = true;
     }
   },
   mounted() {
