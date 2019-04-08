@@ -3,8 +3,8 @@
     <v-btn icon slot="activator">
       <v-icon color="green">edit</v-icon>
     </v-btn>
-    <v-card>
-      <v-toolbar dark flat>
+    <v-card color="grey lighten-2">
+      <v-toolbar flat dark>
         <span class="headline">Edit {{note.title}}</span>
       </v-toolbar>
       <v-card-text>
@@ -14,7 +14,8 @@
               <v-flex xs12>
                 <v-text-field
                   label="Title"
-                  outline
+                  solo
+                  flat
                   hint="Think of something snazzy"
                   required
                   v-model="title"
@@ -25,7 +26,8 @@
                 <v-textarea
                   name="input-7-1"
                   label="Description"
-                  outline
+                  solo
+                  flat
                   auto-grow
                   hint="Don't forget the milk"
                   v-model="description"
@@ -37,9 +39,13 @@
         </v-form>
       </v-card-text>
       <v-card-actions>
+        <v-btn @click="dialog = false" icon>
+          <v-icon>close</v-icon>
+        </v-btn>
         <v-spacer></v-spacer>
-        <v-btn @click="dialog = false">Close</v-btn>
-        <v-btn @click="saveEdit">Save Edit</v-btn>
+        <v-btn @click="saveEdit" icon>
+          <v-icon>save</v-icon>
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

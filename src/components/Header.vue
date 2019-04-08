@@ -1,7 +1,7 @@
 <template>
   <nav>
-    <v-navigation-drawer v-model="drawer" dark fixed>
-      <v-toolbar flat>
+    <v-navigation-drawer dark v-model="drawer" fixed>
+      <v-toolbar dark flat>
         <v-list>
           <v-list-tile>
             <v-list-tile-title class="title">Repo Hunt</v-list-tile-title>

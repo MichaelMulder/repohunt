@@ -1,18 +1,18 @@
 <template>
   <v-container fluid>
     <v-layout align-center justify-center wrap>
-      <v-flex sx10 sm10 md8 lg6>
-        <v-card>
-          <v-card-text color="white">
+      <v-flex sx10 md8 lg6>
+        <v-card color="grey darken-4">
+          <v-card-text>
             <v-text-field
               label="Search GitHub Repos"
               append-icon="search"
               v-model="search"
-              outline
-              color="white"
+              dark
+              solo
               @keyup.enter="getRepos()"
             ></v-text-field>
-            <div v-if="!loaded" class="text-xs-center">
+            <div v-if="!loaded" class="text-xs-center white--text">
               <v-spacer></v-spacer>
               <v-progress-circular indeterminate></v-progress-circular>
               <span>Loading...</span>

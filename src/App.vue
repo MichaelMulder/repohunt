@@ -1,7 +1,7 @@
 <template>
-  <v-app dark>
+  <v-app>
     <Header></Header>
-    <v-content>
+    <v-content class="bg-color">
       <br>
       <br>
       <br>
@@ -9,6 +9,11 @@
     </v-content>
   </v-app>
 </template>
+<style scoped>
+.bg-color {
+  background-color: #607d8b;
+}
+</style>
 
 <script>
 import { db } from "./base";

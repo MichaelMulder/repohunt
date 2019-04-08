@@ -1,11 +1,11 @@
 <template>
-  <v-card flat>
+  <v-card flat color="grey lighten-2">
     <v-container fluid grid-list-md>
       <v-layout row wrap>
         <v-flex>
           <v-card>
             <v-container fill-height fluid pa-2>
-              <v-layout fill-height>
+              <v-layout>
                 <v-flex xs12 align-end flexbox>
                   <span class="title" v-text="repo.full_name"></span>
                 </v-flex>
@@ -35,7 +35,7 @@
                 <v-icon color="blue">link</v-icon>
               </v-btn>
             </v-card-actions>
-            <v-snackbar v-model="copied">Link to {{repo.full_name}} Copied!</v-snackbar>
+            <v-snackbar v-model="copied" color="success">Link to {{repo.full_name}} Copied!</v-snackbar>
           </v-card>
         </v-flex>
       </v-layout>

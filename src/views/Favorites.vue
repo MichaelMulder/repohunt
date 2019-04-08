@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <v-layout align-center justify-center>
-      <v-flex sx10 md6>
+      <v-flex sx10 md8 lg6>
         <v-card>
-          <v-toolbar>
+          <v-toolbar dark>
             <span class="headline">Your Favorites</span>
           </v-toolbar>
           <RepoCard

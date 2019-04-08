@@ -1,10 +1,10 @@
 <template>
-  <v-card flat>
+  <v-card flat color="grey lighten-2">
     <v-container fluid grid-list-md>
       <v-layout row wrap>
         <v-flex>
           <v-card>
-            <v-toolbar flat>
+            <v-toolbar flat dark>
               <span class="headline">{{note.title}}</span>
             </v-toolbar>
             <v-card-text class="subheading">{{note.description}}</v-card-text>
