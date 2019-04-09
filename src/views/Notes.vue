@@ -23,6 +23,7 @@
 <script>
 import NoteCard from "../components/NoteCard.vue";
 import { db } from "../base";
+
 export default {
   props: {
     notes: {

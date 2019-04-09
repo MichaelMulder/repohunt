@@ -27,27 +27,12 @@ export default {
       notes: []
     };
   },
-  created() {
-    db.collection("favorites")
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          this.favorites.push(doc.data());
-        });
-      });
-    db.collection("notes").onSnapshot(res => {
-      const changes = res.docChanges();
 
-      changes.forEach(change => {
-        if (change.type == "added") {
-          this.notes.push({
-            ...change.doc.data(),
-            id: change.doc.id
-          });
-        }
-      });
-    });
+  firestore: {
+    favorites: db.collection("favorites"),
+    notes: db.collection("notes")
   },
+
   components: {
     Header
   }

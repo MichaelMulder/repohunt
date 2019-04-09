@@ -1,13 +1,13 @@
 import Vue from "vue";
 import "./plugins/vuetify";
-import Vuefire from "vuefire";
+import { firestorePlugin } from "vuefire";
 import App from "./App.vue";
 import router from "./router";
 import VueClipboard from "vue-clipboard2";
 
 Vue.config.productionTip = false;
 
-Vue.use(Vuefire);
+Vue.use(firestorePlugin);
 Vue.use(VueClipboard);
 
 new Vue({
