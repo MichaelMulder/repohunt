@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Search from "./views/Search.vue";
 import Notes from "./views/Notes.vue";
 import Favorites from "./views/Favorites.vue";
+import Login from "./views/Login.vue";
 
 Vue.use(Router);
 
@@ -25,6 +26,11 @@ export default new Router({
       name: "notes",
       component: Notes,
       props: true
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
     }
   ]
 });

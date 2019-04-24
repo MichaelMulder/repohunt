@@ -30,7 +30,7 @@
               <v-btn v-else class="grey--text" @click="addFavorite" icon>
                 <v-icon>favorite_outline</v-icon>
               </v-btn>
-              <NoteDialog :notes="notes" :repo="repo"></NoteDialog>
+              <NoteDialog :notes="notes" :repo="repo" :user="user"></NoteDialog>
               <v-btn icon v-clipboard:copy="repo.html_url" @click="linkCopied">
                 <v-icon color="blue">link</v-icon>
               </v-btn>
@@ -59,6 +59,9 @@ export default {
     },
     notes: {
       type: Array
+    },
+    user: {
+      type: Object
     }
   },
   data() {
@@ -71,13 +74,17 @@ export default {
     addFavorite() {
       this.faved = true;
       console.log(this.repo.html_url);
-      db.collection("favorites")
+      db.collection("users")
+        .doc(this.user.uid)
+        .collection("favorites")
         .doc(this.repo.id.toString())
         .set(this.repo);
     },
     removeFavorite() {
       this.faved = false;
-      db.collection("favorites")
+      db.collection("users")
+        .doc(`${this.user.uid}`)
+        .collection("favorites")
         .doc(this.repo.id.toString())
         .delete();
     },

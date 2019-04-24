@@ -60,6 +60,9 @@ export default {
     },
     note: {
       type: Object
+    },
+    user: {
+      type: Object
     }
   },
   data() {
@@ -80,7 +83,10 @@ export default {
           description: this.description,
           repo: this.repo
         };
-        db.collection("notes")
+
+        db.collection("users")
+          .doc(this.user.uid)
+          .collection("notes")
           .doc(this.note.id)
           .set(note);
       }

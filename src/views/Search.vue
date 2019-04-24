@@ -10,7 +10,7 @@
               v-model="search"
               dark
               solo
-              @keyup.enter="getRepos()"
+              @keyup.enter="getRepos() "
             ></v-text-field>
             <div v-if="!loaded" class="text-xs-center white--text">
               <v-spacer></v-spacer>
@@ -26,6 +26,7 @@
             :key="repo.id"
             :favorites="favorites"
             :notes="notes"
+            :user="user"
           ></RepoCard>
         </v-card>
       </v-flex>
@@ -35,37 +36,42 @@
 <script>
 import axios from "axios";
 import RepoCard from "../components/RepoCard.vue";
+import FavoritesVue from "./Favorites.vue";
 
 export default {
   props: {
-    favorites: {
-      type: Array
-    },
-    notes: {
-      type: Array
+    user: {
+      type: Object
     }
   },
   data() {
     return {
-      search: null,
-      loaded: false,
-      repositories: []
+      search: "",
+      loaded: true,
+      repositories: [],
+      favorites: [],
+      notes: []
     };
   },
+
   methods: {
     getRepos() {
-      axios
-        .get(`https://api.github.com/search/repositories?q=${this.search}`)
-        .then(response => {
-          // JSON responses are automatically parsed.
-          this.repositories = response.data.items;
-        })
-        .catch(e => {
-          console.error(e);
-        })
-        .finally(() => {
-          this.loaded = true;
-        });
+      if (this.search) {
+        this.loaded = false;
+
+        axios
+          .get(`https://api.github.com/search/repositories?q=${this.search}`)
+          .then(response => {
+            // JSON responses are automatically parsed.
+            this.repositories = response.data.items;
+          })
+          .catch(e => {
+            console.error(e);
+          })
+          .finally(() => {
+            this.loaded = true;
+          });
+      }
     }
   },
   mounted() {

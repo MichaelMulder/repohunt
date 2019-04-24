@@ -2,7 +2,10 @@
   <v-container fluid>
     <v-layout align-center justify-center>
       <v-flex sx10 md8 lg6>
-        <v-card>
+        <div v-if="!isLogged">
+          <v-alert :value="true" type="error">You Need to Be logged in to see your notes</v-alert>
+        </div>
+        <v-card v-else>
           <v-toolbar dark>
             <span class="headline">Your Notes</span>
           </v-toolbar>
@@ -13,6 +16,7 @@
             :favorites="favorites"
             :notes="notes"
             :repo="note.repo"
+            :user="user"
           ></NoteCard>
         </v-card>
       </v-flex>
@@ -26,12 +30,30 @@ import { db } from "../base";
 
 export default {
   props: {
-    notes: {
-      type: Array
+    user: {
+      type: Object
     },
-    favorites: {
-      type: Array
+    isLogged: {
+      type: Boolean
     }
+  },
+  data() {
+    return {
+      favorites: [],
+      notes: []
+    };
+  },
+  firestore() {
+    return {
+      favorites: db
+        .collection("users")
+        .doc(this.user.uid)
+        .collection("favorites"),
+      notes: db
+        .collection("users")
+        .doc(this.user.uid)
+        .collection("notes")
+    };
   },
 
   name: "Notes",

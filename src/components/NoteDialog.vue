@@ -61,6 +61,9 @@ export default {
     },
     notes: {
       type: Array
+    },
+    user: {
+      type: Object
     }
   },
   data() {
@@ -81,7 +84,10 @@ export default {
           description: this.description,
           repo: this.repo
         };
-        db.collection("notes").add(note);
+        db.collection("users")
+          .doc(this.user.uid)
+          .collection("notes")
+          .add(note);
       }
     }
   }

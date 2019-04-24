@@ -35,6 +35,11 @@
             <v-list-tile-title>Your Notes</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile>
+          <v-btn @click="signIn">
+            <v-icon>person</v-icon>sign in
+          </v-btn>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar dark fixed>
@@ -50,6 +55,12 @@ export default {
     return {
       drawer: null
     };
+  },
+
+  methods: {
+    signIn() {
+      this.$emit("signIn");
+    }
   }
 };
 </script>
