@@ -3,7 +3,7 @@
     <v-layout align-center justify-center>
       <v-flex sx10 md8 lg6>
         <div v-if="!isLogged">
-          <v-alert :value="true" type="error">You Need to Be logged in to see your notes</v-alert>
+          <v-alert :value="true" type="error">You need to be logged in to see your notes</v-alert>
         </div>
         <v-card v-else>
           <v-toolbar dark>

@@ -3,7 +3,7 @@
     <v-layout align-center justify-center>
       <v-flex sx10 md8 lg6>
         <div v-if="!isLogged">
-          <v-alert :value="true" type="error">You have to be logged in to view your favorites</v-alert>
+          <v-alert :value="true" type="error">You need to be logged in to view your favorites</v-alert>
         </div>
         <v-card v-else>
           <v-toolbar dark>
@@ -16,6 +16,7 @@
             :favorites="favorites"
             :notes="notes"
             :user="user"
+            :userData="userData"
           ></RepoCard>
         </v-card>
       </v-flex>
@@ -38,7 +39,8 @@ export default {
   data() {
     return {
       favorites: [],
-      notes: []
+      notes: [],
+      userData: {}
     };
   },
   firestore() {
@@ -50,7 +52,8 @@ export default {
       notes: db
         .collection("users")
         .doc(this.user.uid)
-        .collection("notes")
+        .collection("notes"),
+      userData: db.collection("users").doc(this.user.uid)
     };
   },
   components: {

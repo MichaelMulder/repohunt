@@ -5,6 +5,9 @@
     </v-btn>
     <v-card color="grey lighten-2">
       <v-toolbar dark flat>
+        <v-btn @click="dialog = false" icon>
+          <v-icon>close</v-icon>
+        </v-btn>
         <span class="headline">Your note for {{repo.name}}</span>
       </v-toolbar>
       <v-card-text>
@@ -39,10 +42,6 @@
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="dialog = false" icon>
-          <v-icon>close</v-icon>
-        </v-btn>
-
         <v-spacer></v-spacer>
         <v-btn @click="saveNote" icon>
           <v-icon>save</v-icon>

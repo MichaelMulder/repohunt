@@ -27,9 +27,13 @@
               <v-btn v-if="faved" class="red--text" @click="removeFavorite" icon>
                 <v-icon>favorite</v-icon>
               </v-btn>
+              <v-btn v-else-if="userData.points < 100" class="grey--text" disabled icon>
+                <v-icon>favorite_outline</v-icon>
+              </v-btn>
               <v-btn v-else class="grey--text" @click="addFavorite" icon>
                 <v-icon>favorite_outline</v-icon>
               </v-btn>
+              <ProjectDialog v-show="faved"></ProjectDialog>
               <NoteDialog :notes="notes" :repo="repo" :user="user"></NoteDialog>
               <v-btn icon v-clipboard:copy="repo.html_url" @click="linkCopied">
                 <v-icon color="blue">link</v-icon>
@@ -44,8 +48,9 @@
 </template>
 
 <script>
-import { db } from "../base.js";
+import { db, fs } from "../base.js";
 import NoteDialog from "./NoteDialog.vue";
+import ProjectDialog from "./ProjectDialog.vue";
 
 export default {
   name: "RepoCard",
@@ -61,6 +66,9 @@ export default {
       type: Array
     },
     user: {
+      type: Object
+    },
+    userData: {
       type: Object
     }
   },
@@ -79,26 +87,39 @@ export default {
         .collection("favorites")
         .doc(this.repo.id.toString())
         .set(this.repo);
+      db.collection("users")
+        .doc(this.user.uid)
+        .update({
+          points: fs.FieldValue.increment(-100)
+        });
     },
     removeFavorite() {
       this.faved = false;
       db.collection("users")
-        .doc(`${this.user.uid}`)
+        .doc(this.user.uid)
         .collection("favorites")
         .doc(this.repo.id.toString())
         .delete();
+      db.collection("users")
+        .doc(this.user.uid)
+        .update({
+          points: fs.FieldValue.increment(50)
+        });
+      console.log(this.userData.points);
     },
     linkCopied() {
       this.copied = true;
     }
   },
   mounted() {
-    if (this.favorites.includes(this.repo)) {
+    const favedIDs = this.favorites.map(favorite => favorite.id);
+    if (favedIDs.includes(this.repo.id)) {
       this.faved = true;
     }
   },
   components: {
-    NoteDialog
+    NoteDialog,
+    ProjectDialog
   }
 };
 </script>

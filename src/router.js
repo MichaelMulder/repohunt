@@ -1,9 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
+import Login from "./views/Login.vue";
 import Search from "./views/Search.vue";
 import Notes from "./views/Notes.vue";
 import Favorites from "./views/Favorites.vue";
-import Login from "./views/Login.vue";
+import Projects from "./views/Projects.vue";
 
 Vue.use(Router);
 
@@ -11,6 +12,12 @@ export default new Router({
   routes: [
     {
       path: "/",
+      name: "login",
+      component: Login,
+      props: true
+    },
+    {
+      path: "/search",
       name: "search",
       component: Search,
       props: true
@@ -28,9 +35,10 @@ export default new Router({
       props: true
     },
     {
-      path: "/login",
-      name: "login",
-      component: Login
+      path: "/projects",
+      name: "projects",
+      component: Projects,
+      props: true
     }
   ]
 });

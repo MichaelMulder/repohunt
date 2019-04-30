@@ -27,7 +27,6 @@ export default {
       isLogged: false
     };
   },
-
   methods: {
     signIn() {
       const provider = new auth.GithubAuthProvider();
@@ -40,7 +39,6 @@ export default {
           this.user = result.user;
           console.log(this.user.uid);
           this.isLogged = true;
-          // ...
         })
         .catch(error => {
           // Handle Errors here.
