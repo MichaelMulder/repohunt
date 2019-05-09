@@ -18,9 +18,23 @@
 <script>
 export default {
   props: {
+    user: {
+      type: Object
+    },
+    userData: {
+      type: Object
+    },
     isLogged: {
       type: Boolean
     }
+  },
+  data() {
+    return {
+      Projects: [],
+      notes: [],
+      userData: {},
+      loaded: true
+    };
   }
 };
 </script>

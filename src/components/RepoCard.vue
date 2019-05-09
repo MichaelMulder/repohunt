@@ -1,27 +1,26 @@
 <template>
   <v-card flat color="grey lighten-2">
     <v-container fluid grid-list-md>
-      <v-layout row wrap>
+      <v-layout>
         <v-flex>
-          <v-card>
-            <v-container fill-height fluid pa-2>
-              <v-layout>
-                <v-flex xs12 align-end flexbox>
-                  <span class="title" v-text="repo.full_name"></span>
-                </v-flex>
-              </v-layout>
-              <v-list align-end>
-                <v-chip color="lightgrey" small class="caption">
-                  {{repo.stargazers_count}}
-                  <v-icon right>star</v-icon>
-                </v-chip>
-                <v-chip color="amber" small>
-                  {{repo.language}}
-                  <v-icon right>code</v-icon>
-                </v-chip>
-              </v-list>
+          <v-card class="overflow-hidden">
+            <v-container fill-height fluid pa-2 align-center justify-end>
+              <v-flex xs12>
+                <v-card-title class="title px-0 py-0">
+                  {{repo.full_name}}
+                  <v-spacer></v-spacer>
+                  <v-chip color="lightgrey" small class="caption">
+                    {{repo.stargazers_count}}
+                    <v-icon>star</v-icon>
+                  </v-chip>
+                  <v-chip color="amber" small class="caption">
+                    {{repo.language}}
+                    <v-icon>code</v-icon>
+                  </v-chip>
+                </v-card-title>
+              </v-flex>
             </v-container>
-            <div class="grey--text px-2 py-0">{{repo.description}}</div>
+            <div class="grey--text px-3">{{repo.description}}</div>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn v-if="faved" class="red--text" @click="removeFavorite" icon>
@@ -33,7 +32,9 @@
               <v-btn v-else class="grey--text" @click="addFavorite" icon>
                 <v-icon>favorite_outline</v-icon>
               </v-btn>
-              <ProjectDialog v-show="faved"></ProjectDialog>
+              <v-expand-x-transition leave-absolute>
+                <ProjectDialog :favorites="favorites" :user="user" :repo="repo" v-show="faved"></ProjectDialog>
+              </v-expand-x-transition>
               <NoteDialog :notes="notes" :repo="repo" :user="user"></NoteDialog>
               <v-btn icon v-clipboard:copy="repo.html_url" @click="linkCopied">
                 <v-icon color="blue">link</v-icon>
@@ -46,6 +47,13 @@
     </v-container>
   </v-card>
 </template>
+
+<style scoped>
+span {
+  overflow: hidden;
+}
+</style>
+
 
 <script>
 import { db, fs } from "../base.js";
@@ -105,7 +113,6 @@ export default {
         .update({
           points: fs.FieldValue.increment(50)
         });
-      console.log(this.userData.points);
     },
     linkCopied() {
       this.copied = true;

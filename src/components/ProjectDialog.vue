@@ -15,8 +15,15 @@
           <v-container grid-list-xs>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field label="Title" solo flat hint="Think of something snazzy" required></v-text-field>
-                <v-text-field label="link" solo flat hint="Link to your repo on GitHub" required></v-text-field>
+                <v-text-field
+                  v-model="name"
+                  label="name"
+                  solo
+                  flat
+                  :rules="nameRules"
+                  hint="Think of something snazzy"
+                  required
+                ></v-text-field>
                 <v-menu
                   ref="menu"
                   v-model="menu"
@@ -49,7 +56,14 @@
                 </v-menu>
               </v-flex>
               <v-flex xs12>
-                <v-textarea label="Description" solo flat auto-grow hint="Don't forget the milk"></v-textarea>
+                <v-textarea
+                  v-model="description"
+                  label="Description"
+                  solo
+                  flat
+                  auto-grow
+                  hint="Don't forget the milk"
+                ></v-textarea>
               </v-flex>
             </v-layout>
           </v-container>
@@ -57,7 +71,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn icon>
+        <v-btn icon @click="createProject">
           <v-icon>save</v-icon>
         </v-btn>
       </v-card-actions>
@@ -65,13 +79,74 @@
   </v-dialog>
 </template>
 <script>
+import axios from "axios";
+import { db } from "../base";
+import { constants } from "crypto";
+
 export default {
+  props: {
+    repo: {
+      type: Object
+    },
+    favorites: {
+      type: Array
+    },
+    user: {
+      type: Object
+    }
+  },
   data() {
     return {
       dialog: false,
       menu: false,
-      date: new Date().toISOString().substr(0, 10)
+      name: "",
+      description: "",
+      nameRules: [
+        v =>
+          !!v ||
+          "You need a name! No one is gonna remember Mr.Nobody with the project with no name.",
+        v =>
+          this.user.repos.includes(v) ||
+          "Great name! Wait you already have a project called that! Think of something new."
+      ],
+      date: new Date().toISOString().substr(0, 10),
+      projectRepo: {}
     };
+  },
+  methods: {
+    createProject() {
+      if (this.$refs.form.validate()) {
+        const userRepo = {
+          name: this.name,
+          description: this.description
+        };
+        const project = {
+          name: this.name,
+          description: this.description,
+          baseRepo: this.repo,
+          date: this.date,
+          complete: false
+        };
+        axios
+          .post(`https://api.github.com/user/repos`, userRepo, {
+            headers: {
+              Authorization: "token " + this.user.token
+            }
+          })
+          .then(response => {
+            console.log(response);
+            project.repo = response.data;
+            console.log(project);
+            db.collection("users")
+              .doc(this.user.uid)
+              .collection("projects")
+              .add(project);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+    }
   }
 };
 </script>

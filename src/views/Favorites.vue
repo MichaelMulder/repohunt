@@ -9,15 +9,17 @@
           <v-toolbar dark>
             <span class="headline">Your Favorites</span>
           </v-toolbar>
-          <RepoCard
-            :repo="favorite"
-            v-for="favorite in favorites"
-            :key="favorite.id"
-            :favorites="favorites"
-            :notes="notes"
-            :user="user"
-            :userData="userData"
-          ></RepoCard>
+          <v-slide-x-reverse-transition group>
+            <RepoCard
+              :repo="favorite"
+              v-for="favorite in favorites"
+              :key="favorite.id"
+              :favorites="favorites"
+              :notes="notes"
+              :user="user"
+              :userData="userData"
+            ></RepoCard>
+          </v-slide-x-reverse-transition>
         </v-card>
       </v-flex>
     </v-layout>
@@ -34,12 +36,16 @@ export default {
     },
     isLogged: {
       type: Boolean
+    },
+    userData: {
+      type: Object
     }
   },
   data() {
     return {
       favorites: [],
       notes: [],
+      loaded: true,
       userData: {}
     };
   },

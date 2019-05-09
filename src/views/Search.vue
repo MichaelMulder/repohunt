@@ -19,17 +19,18 @@
               <span>Loading...</span>
             </div>
           </v-card-text>
-
-          <RepoCard
-            v-show="search != null"
-            :repo="repo"
-            v-for="repo in repositories"
-            :key="repo.id"
-            :favorites="favorites"
-            :notes="notes"
-            :user="user"
-            :userData="userData"
-          ></RepoCard>
+          <v-scroll-y-reverse-transition group>
+            <RepoCard
+              v-show="search != null"
+              :repo="repo"
+              v-for="repo in repositories"
+              :key="repo.id"
+              :favorites="favorites"
+              :notes="notes"
+              :user="user"
+              :userData="userData"
+            ></RepoCard>
+          </v-scroll-y-reverse-transition>
         </v-card>
       </v-flex>
     </v-layout>
@@ -44,6 +45,9 @@ export default {
   props: {
     user: {
       type: Object
+    },
+    userData: {
+      type: Object
     }
   },
   data() {
@@ -52,8 +56,7 @@ export default {
       loaded: true,
       repositories: [],
       favorites: [],
-      notes: [],
-      userData: {}
+      notes: []
     };
   },
   firestore() {
