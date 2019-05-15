@@ -46,8 +46,8 @@ export default {
     user: {
       type: Object
     },
-    userData: {
-      type: Object
+    isLogged: {
+      type: Boolean
     }
   },
   data() {
@@ -56,7 +56,8 @@ export default {
       loaded: true,
       repositories: [],
       favorites: [],
-      notes: []
+      notes: [],
+      userData: {}
     };
   },
   firestore() {

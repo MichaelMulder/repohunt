@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Login from "./views/Login.vue";
 import Search from "./views/Search.vue";
 import Notes from "./views/Notes.vue";
 import Favorites from "./views/Favorites.vue";
@@ -12,8 +11,8 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "login",
-      component: Login,
+      name: "search",
+      component: Search,
       props: true
     },
     {

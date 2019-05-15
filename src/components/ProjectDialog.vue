@@ -81,7 +81,6 @@
 <script>
 import axios from "axios";
 import { db } from "../base";
-import { constants } from "crypto";
 
 export default {
   props: {
@@ -106,7 +105,7 @@ export default {
           !!v ||
           "You need a name! No one is gonna remember Mr.Nobody with the project with no name.",
         v =>
-          this.user.repos.includes(v) ||
+          !this.user.repos.some(repo => repo.name === v) ||
           "Great name! Wait you already have a project called that! Think of something new."
       ],
       date: new Date().toISOString().substr(0, 10),
@@ -125,7 +124,13 @@ export default {
           description: this.description,
           baseRepo: this.repo,
           date: this.date,
-          complete: false
+          complete: false,
+          tasks: [
+            {
+              text: "make first commit",
+              done: false
+            }
+          ]
         };
         axios
           .post(`https://api.github.com/user/repos`, userRepo, {

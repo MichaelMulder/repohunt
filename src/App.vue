@@ -31,11 +31,6 @@ export default {
       isLogged: false
     };
   },
-  firestore() {
-    return {
-      userData: db.collection("users").doc(this.user.uid)
-    };
-  },
   methods: {
     signIn() {
       const provider = new auth.GithubAuthProvider();
@@ -56,7 +51,7 @@ export default {
             db.collection("users")
               .doc(this.user.uid)
               .set({
-                points: 1000
+                points: 500
               });
           }
           this.getUserRepos(this.user);

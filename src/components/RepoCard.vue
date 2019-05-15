@@ -36,7 +36,12 @@
                 <ProjectDialog :favorites="favorites" :user="user" :repo="repo" v-show="faved"></ProjectDialog>
               </v-expand-x-transition>
               <NoteDialog :notes="notes" :repo="repo" :user="user"></NoteDialog>
-              <v-btn icon v-clipboard:copy="repo.html_url" @click="linkCopied">
+              <v-btn
+                icon
+                v-clipboard:copy="repo.html_url"
+                @click="linkCopied"
+                @dblclick="openInTab(repo)"
+              >
                 <v-icon color="blue">link</v-icon>
               </v-btn>
             </v-card-actions>
@@ -116,6 +121,9 @@ export default {
     },
     linkCopied() {
       this.copied = true;
+    },
+    openInTab(repo) {
+      window.open(repo.html_url, "_blank");
     }
   },
   mounted() {

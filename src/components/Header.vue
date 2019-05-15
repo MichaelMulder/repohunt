@@ -2,20 +2,10 @@
   <nav>
     <v-navigation-drawer v-model="drawer" class="grey lighten-2" fixed>
       <v-toolbar dark flat>
-        <v-list>
-          <v-spacer></v-spacer>
-          <v-list-tile v-if="isLogged">
-            <v-list-tile-avatar>
-              <img :src="user.photoURL" :alt="user.displayName">
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title class="title">{{user.displayName}}</v-list-tile-title>
-              <v-list-tile-title class="subtitle">Points: {{userData.points}}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
+        <v-fade-transition>
+          <Profile v-if="isLogged" :user="user"></Profile>
+        </v-fade-transition>
       </v-toolbar>
-
       <v-list>
         <v-list-tile to="/search" activeClass="blue--text">
           <v-list-tile-action>
@@ -49,11 +39,21 @@
             <v-list-tile-title>Your Projects</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile v-show="!isLogged">
-          <v-btn @click="signIn">
-            <v-icon>person</v-icon>sign in
-          </v-btn>
-        </v-list-tile>
+        <v-fade-transition>
+          <div class="py-4" v-show="!isLogged">
+            <span class="title px-3">Welcome to Repohunt!</span>
+            <div class="subtitle px-4 py-2">
+              The GitHub project managing Tool made
+              to not only find great repos, but actually make something with them.
+              <br>Please sign in with your GitHub account to connitue!
+            </div>
+            <div class="text-xs-center">
+              <v-btn @click="signIn">
+                <v-icon>person</v-icon>sign in
+              </v-btn>
+            </div>
+          </div>
+        </v-fade-transition>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar dark fixed>
@@ -66,6 +66,8 @@
 
 <script>
 import { db } from "../base";
+import Profile from "./Profile";
+
 export default {
   props: {
     user: {
@@ -80,20 +82,16 @@ export default {
   },
   data() {
     return {
-      drawer: null,
-      userData: {}
+      drawer: null
     };
   },
-  firestore() {
-    return {
-      userData: db.collection("users").doc(this.user.uid)
-    };
-  },
-
   methods: {
     signIn() {
       this.$emit("signIn");
     }
+  },
+  components: {
+    Profile
   }
 };
 </script>

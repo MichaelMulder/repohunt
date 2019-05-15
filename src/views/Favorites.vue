@@ -36,9 +36,6 @@ export default {
     },
     isLogged: {
       type: Boolean
-    },
-    userData: {
-      type: Object
     }
   },
   data() {

@@ -9,15 +9,17 @@
           <v-toolbar dark>
             <span class="headline">Your Notes</span>
           </v-toolbar>
-          <NoteCard
-            :note="note"
-            v-for="note in notes"
-            :key="note.id"
-            :favorites="favorites"
-            :notes="notes"
-            :repo="note.repo"
-            :user="user"
-          ></NoteCard>
+          <v-slide-x-reverse-transition group>
+            <NoteCard
+              :note="note"
+              v-for="note in notes"
+              :key="note.id"
+              :favorites="favorites"
+              :notes="notes"
+              :repo="note.repo"
+              :user="user"
+            ></NoteCard>
+          </v-slide-x-reverse-transition>
         </v-card>
       </v-flex>
     </v-layout>
